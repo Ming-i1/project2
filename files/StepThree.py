@@ -5,6 +5,7 @@ import importlib
 import time
 import os
 from datetime import datetime
+import io
 
 def print_header(title):
     print("\n" + "="*50)
@@ -42,7 +43,14 @@ def test_pytorch():
         return True
 
 if __name__=='__main__':
-    get_system_info()
-    test_pytorch()
+    with open('./outputs/output3.txt', 'w') as file:
+        original_stdout = sys.stdout
+        
+        # file = io.TextIOWrapper(file.buffer, encoding='utf-8')
+        sys.stdout = file
+        get_system_info()
+        test_pytorch()
+        sys.stdout = original_stdout
+
 else:
     print("错误")

@@ -7,6 +7,7 @@ import subprocess
 import importlib
 import time
 from datetime import datetime
+import io
 
 def print_header(title):
     print("\n" + "="*50)
@@ -127,7 +128,7 @@ def main():
     # 总结报告
     print_header("测试总结")
     for name, success in results.items():
-        status = "✓ 通过" if success else "✗ 失败"
+        status = "√ 通过" if success else "× 失败"
         print(f"{name:>12}: {status}")
 
     elapsed = time.time() - start_time
@@ -135,4 +136,9 @@ def main():
     print(f"测试完成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
 if __name__ == "__main__":
-    main()
+    with open('./outputs/output2.txt', 'w') as file:
+        original_stdout = sys.stdout
+        sys.stdout = file
+        # sys.stdout = io.TextIOWrapper(file.buffer, encoding='utf-8')
+        main()
+        sys.stdout = original_stdout
